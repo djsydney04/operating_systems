@@ -1,0 +1,13 @@
+# Object files and debug symbols
+*.o
+*.obj
+*.dSYM/
+
+# Executables
+a.out
+*.out
+*.exe
+
+# Common gcc -o names from class
+main
+fork
