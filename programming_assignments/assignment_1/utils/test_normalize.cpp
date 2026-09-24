@@ -1,4 +1,4 @@
-#include <../utils/normalize.h>
+#include "normalize.h"
 #include <iostream>
 #include <string>
 
