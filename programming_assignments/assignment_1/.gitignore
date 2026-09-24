@@ -1,0 +1,11 @@
+# Compiled programs
+ossh
+a.out
+*.o
+*.out
+
+# Debug / editor leftovers
+*.dSYM/
+.DS_Store
+.vscode/
+*.swp
