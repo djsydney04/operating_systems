@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "utils/normalize.h"
+#include "core/core.h"
 
 int main(int argc, char* argv[]) {
     // If the user does not provide a batch file, run the shell in interactive mode 
@@ -11,15 +11,10 @@ int main(int argc, char* argv[]) {
         // Read commands from stdin until the user exits the shell
         while (true) {
             std::cout << "ossh> " << std::flush;
-            std::getline(std::cin, command);
-            // Normalize the command so "QUIT" matches "quit"
-            if (std::string(normalize(command)) == "quit") {
+            if (!std::getline(std::cin, command)) {
                 break;
             }
-            // Execute the command
-            if (!command.empty()) {
-                std::cout << command << std::endl;
-            }
+            execute(command);
         }
     } else if (argc == 2) {
         std::string command = argv[1];
