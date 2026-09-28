@@ -1,5 +1,5 @@
 # Compiled programs
-ossh
+/build/
 a.out
 *.o
 *.out
