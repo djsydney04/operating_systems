@@ -2,8 +2,7 @@
 
 This is a small c shell that reads a command line or batch file and seperates the command and runs each in it's own child process.
 
-## Build Instructions: 
-
+## Build & run Instructions: 
 To compile and run 
 
 ```sh 
@@ -12,7 +11,7 @@ make run # builds and runs the ossh program
 ./ossh #enters the shell
 ```
 
-## Build, run, and test
+## Build, run, and test commands
 
 I set up a makefile for easy compilation of tests, which I used to verify the code, and easy running, since there are multiple files that hte logic is spread out between
 
