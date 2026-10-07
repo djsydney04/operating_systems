@@ -6,11 +6,14 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -pedantic
 CPPFLAGS += -Isrc
 
-# Set the output file and source files
-OSSH = build/ossh
-SOURCES = src/main.cpp src/shell.cpp src/string_utils.cpp
-HEADERS = src/shell.h src/string_utils.h
-TEST_BINARIES = build/test_shell build/test_string_utils
+# Compiled programs are written in this assignment directory (next to the makefile).
+OSSH = ossh
+TEST_SHELL = test_shell
+TEST_STRING_UTILS = test_string_utils
+TEST_BATCH = test_batch
+SOURCES = src/main.cpp src/shell.cpp src/batch.cpp src/string_utils.cpp
+HEADERS = src/shell.h src/batch.h src/string_utils.h
+TEST_BINARIES = $(TEST_SHELL) $(TEST_STRING_UTILS) $(TEST_BATCH)
 
 # Set the phony targets
 .PHONY: all test tests run-tests run clean help
@@ -18,24 +21,32 @@ TEST_BINARIES = build/test_shell build/test_string_utils
 # Keep building, testing, and running as separate, explicit steps.
 all: $(OSSH)
 
-$(OSSH): $(SOURCES) $(HEADERS) | build
+# Compile the ossh program into this directory
+$(OSSH): $(SOURCES) $(HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(SOURCES) -o $@
 
-build/test_shell: tests/test_shell.cpp src/shell.cpp src/string_utils.cpp $(HEADERS) | build
+# Compile the test_shell program
+$(TEST_SHELL): tests/test_shell.cpp src/shell.cpp src/string_utils.cpp $(HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) tests/test_shell.cpp src/shell.cpp src/string_utils.cpp -o $@
 
-build/test_string_utils: tests/test_string_utils.cpp src/string_utils.cpp src/string_utils.h | build
+# Compile the test_string_utils program
+$(TEST_STRING_UTILS): tests/test_string_utils.cpp src/string_utils.cpp src/string_utils.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) tests/test_string_utils.cpp src/string_utils.cpp -o $@
 
-build:
-	mkdir -p build
+# Compile the test_batch program
+$(TEST_BATCH): tests/test_batch.cpp src/batch.cpp src/shell.cpp src/string_utils.cpp src/batch.h $(HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) tests/test_batch.cpp src/batch.cpp src/shell.cpp src/string_utils.cpp -o $@
 
+# Run the test programs
 test: $(TEST_BINARIES)
-	./build/test_shell
-	./build/test_string_utils
+	./$(TEST_SHELL)
+	./$(TEST_STRING_UTILS)
+	./$(TEST_BATCH)
 
+# Run the test_string_utils program
 tests run-tests: test
 
+# Run the ossh program
 run: $(OSSH)
 	./$(OSSH)
 
@@ -43,7 +54,7 @@ clean:
 	rm -f $(OSSH) $(TEST_BINARIES)
 
 help:
-	@echo "make        Build build/ossh"
+	@echo "make        Build ./ossh"
 	@echo "make run    Build and start the shell"
 	@echo "make test   Build and run all tests"
 	@echo "make run-tests  Alias for make test (make tests also works)"

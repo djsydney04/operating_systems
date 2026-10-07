@@ -50,30 +50,35 @@ void run_command(std::vector<std::string> command_words) {
     waitpid(pid, nullptr, 0);
 }
 
-// cd changes this process. A child cannot change the shell's directory so this function is used in the parent shell process to change the directory.
+// cd changes this process. A child cannot change the shell's directory so this function is used in the parent shell process to change the directory when the cd command is used.
 void change_directory(const std::vector<std::string>& words) {
+    // Need to check that the user only provides a single arg for a cd command.
     if (words.size() > 2) {
         std::fprintf(stderr, "cd: too many arguments\n");
         return;
     }
 
+    // Creates a c string for for the path directory to change to
     const char* path = nullptr;
+    // If the user only provides a single arg for a cd command, change to the HOME directory
     if (words.size() == 1) {
         path = std::getenv("HOME");
         if (path == nullptr) {
             std::fprintf(stderr, "cd: HOME is not set\n");
             return;
         }
+    // If the HOME directory is not set, print an error message and return
     } else {
+        //turn the string into a c string
         path = words[1].c_str();
     }
-
+    // Change the directory to the path
     if (chdir(path) != 0) {
         std::perror("cd");
     }
 }
 
-} // namespace
+}
 
 bool execute_line(std::string line) {
     std::vector<std::string> commands = split_commands(line);

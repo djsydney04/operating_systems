@@ -1,4 +1,8 @@
 # Compiled programs
+/ossh
+/test_shell
+/test_string_utils
+/test_batch
 /build/
 a.out
 *.o

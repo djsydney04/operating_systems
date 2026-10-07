@@ -1,4 +1,5 @@
 #include "shell.h"
+#include "batch.h"
 
 #include <iostream>
 #include <string>
@@ -20,9 +21,8 @@ int main(int argc, char* argv[]) {
             }
         }
     } else if (argc == 2) {
-        // TODO: Read and execute commands from the batch file.
-        std::cout << argv[1] << std::endl;
+        std::vector<std::string> commands = read_batch_file(argv[1]);
+        execute_commands(commands);
     }
-
     return 0;
 }

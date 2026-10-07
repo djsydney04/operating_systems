@@ -1,13 +1,14 @@
-# Object files and debug symbols
-*.o
-*.obj
-*.dSYM/
+# Ignore compiled binaries and other generated files by default.
+*
+!*/
 
-# Executables
-a.out
-*.out
-*.exe
-
-# Common gcc -o names from class
-main
-fork
+# Keep source, notes, and this file
+!.gitignore
+!README.md
+!*.cpp
+!*.c
+!*.h
+!*.md
+!*.png
+!Makefile
+!makefile
