@@ -1,8 +1,14 @@
 # Assignment 1: `ossh`
 
-This is a small c++ shell that reads a command line or batch file and seperates the command and runs each in it's own child process.
+This is a small C++ shell that reads a command line or a batch file, separates the commands, and runs each one in its own child process.
+
+## Name
+
+Dylan Mitic
 
 ## Design Overview
+
+Below is a breakout of the file strucutre that I used to build the shell. Main houses the entry point and interactive vs batch functionality routing. Shell.cpp houses the shell parsing and command execution. batch.cpp houses the file read in and batch execution. 
 
 File structure:
 
@@ -27,13 +33,20 @@ assignment_1/
 
 `make` writes the `ossh` executable in this directory, so `./ossh` starts the shell. Test programs still go in `build/`. Neither is checked in. 
 
-## Build & run Instructions: 
+## Build & run Instructions:
 To compile and run 
 
 ```sh 
 cd assignment_1 
 make run # builds and runs the ossh program
 ./ossh #enters the shell
+```
+
+To compile without using make:
+
+```sh
+g++ -Isrc -std=c++17 -Wall -Wextra -pedantic src/main.cpp src/shell.cpp src/batch.cpp src/string_utils.cpp -o ossh
+./ossh
 ```
 
 ## Build, run, and test commands
@@ -47,3 +60,7 @@ I set up a makefile for easy compilation of tests, which I used to verify the co
 | `make test` | Build and run all tests (`make tests` and `make run-tests` also work) |
 | `make clean` | Remove `ossh` and the test programs from this folder |
 | `make help` | Show these commands in the terminal |
+
+## Known bugs or problems
+
+- I discussed this with you in class, but cd seems like it can't be executed by the child process since it changes the directory for the parent process, to handle this, and make the shell more usable, I added an exception in shell.cpp.

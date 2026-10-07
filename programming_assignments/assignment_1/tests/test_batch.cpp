@@ -16,7 +16,7 @@ int test_read_batch_file() {
         std::ofstream out(path);
         out << "ls -l\n";
         out << "cat file\n";
-        
+        out << "quit\n";
         out.close();
     }
 
@@ -25,7 +25,8 @@ int test_read_batch_file() {
     std::filesystem::remove(path);
 
     // Check that the commands were read correctly
-    if (commands.size() == 2 && commands[0] == "ls -l" && commands[1] == "cat file") {
+    if (commands.size() == 3 && commands[0] == "ls -l" && commands[1] == "cat file" &&
+        commands[2] == "quit") {
         std::cout << "PASS: read_batch_file reads commands from a file" << std::endl;
         return 0;
     }

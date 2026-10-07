@@ -52,10 +52,11 @@ run: $(OSSH)
 
 clean:
 	rm -f $(OSSH) $(TEST_BINARIES)
+	rm -rf build
 
 help:
 	@echo "make        Build ./ossh"
 	@echo "make run    Build and start the shell"
 	@echo "make test   Build and run all tests"
 	@echo "make run-tests  Alias for make test (make tests also works)"
-	@echo "make clean  Remove generated programs"
+	@echo "make clean  Remove generated programs and the build directory"

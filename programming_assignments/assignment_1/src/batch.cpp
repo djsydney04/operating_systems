@@ -18,7 +18,9 @@ std::vector<std::string> read_batch_file(std::string filename) {
 // Executes a vector of commands
 void execute_commands(std::vector<std::string> commands) {
     for (const auto& command : commands) {
-        execute_line(command);
-        printf("Command executed: %s\n", command.c_str());
+        std::cout << command << std::endl;
+        if (execute_line(command)) {
+            break;
+        }
     }
 }
