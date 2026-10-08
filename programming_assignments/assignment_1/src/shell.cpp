@@ -29,7 +29,7 @@ std::vector<std::string> split_words(std::string command) {
 
 namespace {
 
-// Used only in this file. execute_line supplies at least one word.
+// Run one command in a child process.
 void run_command(std::vector<std::string> command_words) {
     pid_t pid = fork();
     if (pid == 0) {
@@ -38,45 +38,42 @@ void run_command(std::vector<std::string> command_words) {
             argv.push_back(word.data());
         }
         argv.push_back(nullptr);
-        // argv[0] is the program. The rest are its arguments.
+        // Replace the child with the requested program.
         execvp(argv[0], argv.data());
-        // The command is missing or cannot be executed. Report it and keep going.
+        // execvp only returns if it fails.
         std::cerr << argv[0] << ": command not found or cannot be executed\n";
         _exit(1);
     } else if (pid < 0) {
         std::cerr << "failed to start a new process\n";
         return;
     }
-    // Wait until this command finishes before starting the next one.
+    // Wait for the child to finish.
     int status = 0;
     if (waitpid(pid, &status, 0) < 0) {
         std::cerr << "failed to wait for the command to finish\n";
     }
 }
 
-// cd changes this process. A child cannot change the shell's directory so this function is used in the parent shell process to change the directory when the cd command is used.
+// Change the shell's current directory.
 void change_directory(const std::vector<std::string>& words) {
-    // Need to check that the user only provides a single arg for a cd command.
+    // cd accepts at most one path.
     if (words.size() > 2) {
         std::cerr << "cd: too many arguments\n";
         return;
     }
 
-    // Creates a c string for for the path directory to change to
     const char* path = nullptr;
-    // If the user only provides a single arg for a cd command, change to the HOME directory
+    // cd without a path uses HOME.
     if (words.size() == 1) {
         path = std::getenv("HOME");
         if (path == nullptr) {
             std::cerr << "cd: HOME is not set\n";
             return;
         }
-    // If the HOME directory is not set, print an error message and return
     } else {
-        //turn the string into a c string
         path = words[1].c_str();
     }
-    // Change the directory to the path
+
     if (chdir(path) != 0) {
         std::cerr << "cd: cannot change directory\n";
     }
