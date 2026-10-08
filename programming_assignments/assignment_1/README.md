@@ -56,7 +56,6 @@ I set up a makefile for easy compilation across the four files in SRC + the test
 | `make run` | Build if needed, then start the shell |
 | `make test` | Build and run all tests (`make tests` and `make run-tests` also work) |
 | `make clean` | Remove `ossh` and the test programs from this folder |
-| `make help` | Show these commands in the terminal |
 
 ## Known bugs or problems
 
