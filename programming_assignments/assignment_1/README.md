@@ -1,10 +1,7 @@
-# Assignment 1: `ossh`
+# Assignment 1: ossh
+Dykan Mitic 
 
 This is a small C++ shell that reads a command line or a batch file, separates the commands, and runs each one in its own child process.
-
-## Name
-
-Dylan Mitic
 
 ## Design Overview
 
@@ -31,7 +28,7 @@ assignment_1/
     └── test_string_utils.cpp # String helpers tests 
 ```
 
-`make` writes the `ossh` executable in this directory, so `./ossh` starts the shell. Test programs still go in `build/`. Neither is checked in. 
+make writes the ossh executable in this directory, so ./ossh starts the shell. Test programs go in build. Neither is checked in. 
 
 ## Build & run Instructions:
 To compile and run 
@@ -51,7 +48,7 @@ g++ -Isrc -std=c++17 -Wall -Wextra -pedantic src/main.cpp src/shell.cpp src/batc
 
 ## Build, run, and test commands
 
-I set up a makefile for easy compilation of tests, which I used to verify the code, and easy running, since there are multiple files that hte logic is spread out between
+I set up a makefile for easy compilation across the four files in SRC + the test files. 
 
 | Command | What it does |
 | --- | --- |
