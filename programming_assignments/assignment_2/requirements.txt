@@ -1,0 +1,194 @@
+Programming Assignment 2: Multilevel Queue CPU Scheduling
+
+Scheduling Algorithms
+
+This project involves implementing a multilevel queue CPU scheduling simulator. The scheduler
+will be assigned a predefined set of tasks and will schedule these tasks using four separate
+scheduling queues. Each queue represents a different class of processes and implements a
+specific CPU scheduling algorithm.
+
+The following scheduling queues and algorithms must be implemented:
+
+1. Real-Time Processes — Priority Scheduling: Tasks are scheduled according to their
+   assigned priority. The task with the highest priority is selected first.
+2. System Processes — Shortest-Job-First (SJF): Tasks are scheduled according to the
+   length of their CPU bursts. The task with the shortest CPU burst is selected first.
+3. Interactive Processes — Round-Robin (RR): Tasks are scheduled using round-robin
+   scheduling, where each task executes for a specified time quantum or the remainder of its
+   CPU burst.
+4. Batch Processes — First-Come, First-Served (FCFS): Tasks are scheduled in the order
+   in which they arrive.
+
+The queues have a fixed priority ordering, with the Real-Time queue having the highest priority,
+followed by the System, Interactive, and Batch queues. The scheduler always selects tasks from
+the highest-priority queue containing ready tasks. Priorities assigned to individual tasks range
+from 1 to 10, where a higher numeric value indicates a higher relative priority. For round-robin
+scheduling, the length of a time quantum is 10 milliseconds.
+
+Implementation
+
+The implementation of this project may be completed in C/C++. You will need to implement all
+components necessary to read the task input file, create and manage the scheduling queues,
+select tasks for execution, simulate CPU execution, and display scheduling results.
+
+The schedule of tasks has the form:
+
+[task name], [priority], [CPU burst], [queue number]
+
+The following is an example of the input format:
+
+T1, 4, 20, 1
+T2, 2, 25, 2
+T3, 3, 25, 3
+T4, 3, 15, 4
+T5, 10, 10, 1
+T6, 5, 30, 2
+T7, 4, 20, 3
+T8, 2, 15, 4
+
+Thus, task T1 has priority 4, a CPU burst of 20 milliseconds, and is assigned to Queue 1 (Real-
+Time Processes). Task T2 has priority 2, a CPU burst of 25 milliseconds, and is assigned to
+Queue 2 (System Processes), and so forth.
+
+The queue assignments are fixed as follows:
+
+Queue   Process Type            Scheduling Algorithm
+1       Real-Time Processes     Priority
+2       System Processes        SJF
+3       Interactive Processes   Round Robin
+4       Batch Processes         FCFS
+
+It is assumed that all tasks arrive at the same time (time zero). Therefore, the scheduling
+algorithms do not have to support newly arriving higher-priority tasks preempting currently
+executing tasks. FCFS, SJF, and Priority scheduling are non-preemptive. Round-robin
+scheduling is preemptive within its assigned queue.
+
+For tasks with equal priority in Queue 1 or equal CPU burst lengths in Queue 2, tasks must be
+selected in their original input order. Tasks in Queue 4 must also be executed in their original
+input order. Tasks remain in their assigned queues throughout execution and do not migrate
+between queues.
+
+The scheduler must continue executing tasks until all four queues are empty and every task is
+completed.
+
+Implementation Details
+
+You need to design and implement the necessary data structures and functions to support the
+scheduling simulator.
+
+The implementation needs to provide the following functionality:
+
+1. Task Management: Read tasks from an input file and maintain information about each
+   task, including its name, priority, original CPU burst, remaining execution time, and
+   assigned queue.
+2. Queue Management: Create and maintain four separate scheduling queues. Tasks must be
+   inserted into the appropriate queue based on their queue number.
+3. Scheduling Algorithms: Implement FCFS, SJF, Priority, and Round-Robin scheduling.
+   Each algorithm must select tasks according to its scheduling policy.
+4. Multilevel Queue Scheduling: Implement a scheduler that selects the highest-priority
+   nonempty queue. The selected queue's scheduling algorithm determines which task
+   executes next.
+5. CPU Simulation: Implement a simulated CPU clock using an integer counter. Each
+   iteration of the CPU simulation loop represents one clock tick, equivalent to 1 millisecond
+   of CPU execution time.
+6. CPU Execution Gantt Chart: Generate a text-based Gantt chart showing the execution
+   order of tasks, including their starting and ending clock times.
+7. Scheduling Statistics: Calculate the turnaround time, waiting time, and response time for
+   each task, along with the average values for all tasks.
+
+You may use standard data structures and libraries available in C/C++. However, all scheduling
+logic, queue management, task selection, and CPU simulation functionality must be developed
+by the student.
+
+CPU Simulation
+
+The simulator needs to implement a clock-driven CPU simulation where each iteration of the
+CPU simulation loop represents one millisecond of simulated CPU execution time.
+
+During each clock tick, the simulator will:
+
+1. Determine which task is currently executing on the CPU.
+2. Decrement the executing task's remaining CPU burst time by one.
+3. Increment the simulated CPU clock by one.
+4. Determine whether the task has completed or, for round-robin scheduling, its time
+   quantum has expired.
+
+When a task completes or its time quantum expires, the scheduler should select the next task
+according to the multilevel queue scheduling rules. For round-robin scheduling, a task that has
+not completed after its 10-millisecond time quantum must be returned to the end of its queue.
+
+The simulator will continue until all tasks have completed. Actual execution delays are not
+required.
+
+CPU Execution Gantt Chart
+
+The simulator should generate a text-based Gantt chart illustrating the CPU execution timeline.
+The Gantt chart should show the order in which tasks execute, including the start and completion
+times of each execution interval.
+
+For example, using the task input file provided above:
+
+CPU Scheduling Gantt Chart
+| T5 | T1 | T2 | T6 | T3 | T7 | T3 | T7 | T3 | T4 | T8 |
+0    10   30   55   85   95   105  115  125  130  145  160
+
+Total CPU Execution Time: 160 ms
+
+Each segment represents a continuous period during which a task occupies the CPU. For round-
+robin scheduling, a task may appear multiple times because it can execute for multiple time
+quanta. The Gantt chart must be generated automatically from the simulation results rather than
+being hardcoded.
+
+The formatting of the chart may vary, but the task execution order and corresponding clock times
+should be clearly displayed.
+
+Scheduling Statistics
+
+The simulator should calculate the following statistics for each task:
+
+- Turnaround Time: The time between task arrival and completion.
+- Waiting Time: The total time a task spends waiting for CPU execution.
+- Response Time: The time between task arrival and the task's first execution.
+
+These statistics are calculated as follows:
+
+- Turnaround Time = Completion Time − Arrival Time
+- Waiting Time = Turnaround Time − Original CPU Burst
+- Response Time = First Execution Time − Arrival Time
+
+Since all tasks arrive at time zero, the arrival time for every task is zero.
+
+The simulator must display these statistics for each task and calculate the average turnaround
+time, average waiting time, and average response time across all tasks.
+
+Submission Requirements
+
+You need to submit the following:
+
+1. Source Code: All source files necessary to compile and execute the scheduling
+   simulator.
+2. Build and Execution Instructions: A README file describing how to compile and
+   execute the program along with any collaboration. As well as a description of the
+   program design, including the data structures used to implement the scheduling queues,
+   and an explanation of how the multilevel queue scheduler selects tasks for execution.
+3. Input Files: The task input files used to test the simulator.
+4. Program Output: The CPU execution Gantt chart and scheduling statistics generated for
+   the test cases.
+
+Grading                                                                          Points
+
+Task Input and Queue Management — Correctly reads task input, maintains task
+information, and assigns tasks to the appropriate queues.                           10
+Scheduling Algorithms — Correct implementation of Priority, SJF, RR, and FCFS
+scheduling.                                                                         20
+Multilevel Queue Scheduling — Correctly selects tasks across the four queues using
+fixed queue priorities.                                                             20
+CPU Simulation — Correct implementation of the clock-driven simulation, including
+remaining burst times and round-robin time quantum handling.                        10
+CPU Execution Gantt Chart — Correctly displays task execution order and clock
+times.                                                                              10
+Scheduling Statistics — Correct calculation of turnaround, waiting, and response
+times, including averages.                                                          10
+Testing and Documentation — Adequate test cases, README, and program design
+description.                                                                         5
+Total                                                                               85
