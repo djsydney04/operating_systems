@@ -1,6 +1,6 @@
 # Compiled programs
 /scheduler
-/test_scheduler
+/test_parse_task_line
 /build/
 a.out
 *.o

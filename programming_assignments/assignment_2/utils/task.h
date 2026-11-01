@@ -2,12 +2,13 @@
 
 #include <string>
 
+//constants for the scheduler 
 const int queue_count = 4;
-const int time_quantum = 10;
+const int time_quantum = 10;    // round-robin slice in ms
 const int min_priority = 1;
 const int max_priority = 10;
 
-// Queue numbers as they appear in the input file. Lower number = higher queue priority.
+// Queue numbers from the input file. A lower number is a higher-priority queue.
 enum queue_type {
     real_time_queue = 1,    // Priority
     system_queue = 2,       // SJF
@@ -15,7 +16,7 @@ enum queue_type {
     batch_queue = 4         // FCFS
 };
 
-// One line of the input file plus the bookkeeping the simulation fills in.
+// Data strucuter for a task to be scheuled. 
 struct task {
     std::string name;
     int priority = 0;
