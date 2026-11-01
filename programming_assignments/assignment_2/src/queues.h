@@ -1,6 +1,23 @@
 #pragma once
 
-// The four ready queues, one for each queue number in the input file.
-// Each task goes into the queue that matches its queue number and never moves to another.
-// The scheduler always serves the lowest-numbered queue that still has tasks, and an
-// unfinished round-robin task goes back to the end of queue 3.
+#include "task.h"
+
+#include <array>
+#include <deque>
+#include <vector>
+
+
+struct ready_queues {
+    std::array<std::deque<int>, queue_count> indexes;
+};
+
+
+ready_queues build_ready_queues(const std::vector<task>& tasks);
+
+int first_ready_queue(const ready_queues& queues);
+
+int front_task(const ready_queues& queues, int queue_number);
+
+int take_front(ready_queues& queues, int queue_number);
+
+void return_to_queue(ready_queues& queues, const std::vector<task>& tasks, int task_index);
