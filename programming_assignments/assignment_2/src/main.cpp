@@ -1,3 +1,6 @@
+#include "gantt.h"
+#include "scheduler.h"
+#include "stats.h"
 #include "task_reader.h"
 
 #include <exception>
@@ -12,7 +15,10 @@ int main(int argc, char* argv[]) {
 
     try {
         std::vector<task> tasks = read_tasks(argv[1]);
-        // Next: run the scheduler on tasks, then print the Gantt chart and statistics.
+        std::vector<gantt_segment> segments = run_scheduler(tasks);
+        std::cout << '\n';
+        print_gantt(segments, std::cout);
+        print_stats(compute_stats(tasks), std::cout);
     } catch (const std::exception& error) {
         std::cerr << "error: " << error.what() << '\n';
         return 1;

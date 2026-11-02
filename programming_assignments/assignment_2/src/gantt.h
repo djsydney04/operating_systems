@@ -1,5 +1,15 @@
 #pragma once
 
-// Prints the stretches of CPU time recorded by the scheduler as a text timeline:
-// task names in the order they ran, the clock time where each stretch starts and ends,
-// and the total CPU execution time.
+#include <ostream>
+#include <string>
+#include <vector>
+
+// One continuous stretch of CPU time for a task, from start up to end (ms).
+struct gantt_segment {
+    std::string name;
+    int start = 0;
+    int end = 0;
+};
+
+// Prints the chart and the total CPU execution time.
+void print_gantt(const std::vector<gantt_segment>& segments, std::ostream& out);
