@@ -6,18 +6,17 @@
 #include <deque>
 #include <vector>
 
+// One deque of task indexes per queue; queue N is stored at [N - 1]
+using ready_queues = std::array<std::deque<int>, queue_count>;
 
-struct ready_queues {
-    std::array<std::deque<int>, queue_count> indexes;
-};
-
-
+// Builds the ready queues for the given tasks.
 ready_queues build_ready_queues(const std::vector<task>& tasks);
 
-int first_ready_queue(const ready_queues& queues);
+// Finds the first non-empty queue.
+int first_ready_queue(ready_queues& queues);
 
-int front_task(const ready_queues& queues, int queue_number);
-
+// Takes the front task from the given queue.
 int take_front(ready_queues& queues, int queue_number);
 
-void return_to_queue(ready_queues& queues, const std::vector<task>& tasks, int task_index);
+// Round robin: a task whose time slice ran out goes to the back of the queu
+void requeue_round_robin(ready_queues& queues, const std::vector<task>& tasks, int task_index);
