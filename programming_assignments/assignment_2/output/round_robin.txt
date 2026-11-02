@@ -1,0 +1,14 @@
+
+CPU Scheduling Gantt Chart
+| T1 | T2 | T3 | T1 | T3 | T1 | T4 |
+0    10   17   27   37   39   42   47
+
+Total CPU Execution Time: 47 ms
+
+Scheduling Statistics
+Task  Turnaround  Waiting  Response
+T1    42          19       0
+T2    17          10       10
+T3    39          27       17
+T4    47          42       42
+Avg   36.25       24.50    17.25
